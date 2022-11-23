@@ -1,6 +1,4 @@
-@extends('layouts.app')
-@section('title','INDEX PAGE')
-@section('content')
+
     <a class="btn btn-primary" href="{{ route('products.index') }}">index page</a>
 
     <div class="container">
@@ -37,4 +35,4 @@
         <button class="btn btn-danger" type="submit">delete</button>
     </form>
     <br><br><br>
-@endsection
+

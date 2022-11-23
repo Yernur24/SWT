@@ -19,14 +19,17 @@ class LoginController extends Controller
     }
     public function login(Request $request){
         if(Auth::check()){
-            return redirect()->intended('/clubs');
+
         }
         $validated=$request->validate([
             'email'=>'required|email',
             'password'=>'required|string'
         ]);
         if(Auth::attempt($validated)){
-            return redirect()->route('products.index');
+            if(Auth::user()->role->name == "admin")
+                return redirect()->intended('/adm/users');
+            return redirect()->intended('/products');
+
         }
         return back()->withErrors('Incorrect email or password');
     }

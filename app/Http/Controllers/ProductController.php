@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Product;
 
@@ -8,12 +9,13 @@ class ProductController extends Controller
 {
     public function index(){
         $allProducts= Product::all();
-        return view('products.index', ['products' => $allProducts]);
+        $categories = Category::all();
+        return view('products.index', ['products' => $allProducts , 'categories' => $categories]);
     }
 
     public function create()
     {
-        return view('products.create');
+        return view('products.create', ['categories' => Category::all()]);
     }
 
     public function store(Request $request)
@@ -25,7 +27,7 @@ class ProductController extends Controller
             'content'=>'required',
         ]);
         Product::create($validated);
-        return redirect()->route('products.index');
+        return redirect()->route('products.index ');
     }
     public function show(Product $product)
     {
@@ -33,7 +35,7 @@ class ProductController extends Controller
     }
     public function edit(Product $product)
     {
-        return view('products.edit',['product' => $product ]);
+        return view('products.edit',['product' => $product , 'categories' => Category::all()]);
     }
 
     public function update(Request $request, Product $product)
@@ -52,10 +54,13 @@ class ProductController extends Controller
         $product->delete();
         return redirect()->route('products.index');
     }
-//    public function clubByCat(Category $category)
-//    {
-//        $clubs=$category->clubs;
-//        $allCategories = Category::all();
-//        return view('clubs.index', ['clubs' => $clubs, 'categories' => $allCategories]);
-//    }
+    public function productByCat(Category $category)
+    {
+        $clubs=$category->clubs;
+        $allCategories = Category::all();
+        return view('clubs.index', ['clubs' => $clubs, 'categories' => $allCategories]);
+    }
+
+
 }
+
